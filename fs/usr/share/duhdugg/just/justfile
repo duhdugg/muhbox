@@ -1,0 +1,80 @@
+export-aws:
+    distrobox-export -b /usr/bin/aws
+
+export-postgres:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    distrobox-export -b /usr/bin/clusterdb
+    distrobox-export -b /usr/bin/createdb
+    distrobox-export -b /usr/bin/createuser
+    distrobox-export -b /usr/bin/dropdb
+    distrobox-export -b /usr/bin/dropuser
+    distrobox-export -b /usr/bin/pg_amcheck
+    distrobox-export -b /usr/bin/pg_basebackup
+    distrobox-export -b /usr/bin/pg_dump
+    distrobox-export -b /usr/bin/pg_dumpall
+    distrobox-export -b /usr/bin/pg_isready
+    distrobox-export -b /usr/bin/pg_receivewal
+    distrobox-export -b /usr/bin/pg_recvlogical
+    distrobox-export -b /usr/bin/pg_restore
+    distrobox-export -b /usr/bin/pg_verifybackup
+    distrobox-export -b /usr/bin/pgbench
+    distrobox-export -b /usr/bin/psql
+    distrobox-export -b /usr/bin/reindexdb
+    distrobox-export -b /usr/bin/vacuumdb
+    mkdir -p ~/.bashrc.d
+    cat /etc/profile.d/postgres-socket.sh > ~/.bashrc.d/postgres-socket
+
+install-watchexec:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    test -f ~/.cargo/env || just install-rustup
+    . ~/.cargo/env
+    cargo install --locked watchexec-cli
+
+setup:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    just export-aws
+    just export-postgres
+    just setup-nvim
+    just setup-zsh
+    just setup-rustup
+    just install-watchexec
+
+setup-nvim:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    pip install pynvim
+
+setup-rustup:
+    #!/usr/bin/env bash
+    rustup-init
+
+setup-zsh:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    sudo chsh -s /bin/zsh $USER
+    just setup-zsh-syntax-highlighting
+
+setup-zsh-syntax-highlighting:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    cd /opt
+    test -d /opt/zsh-syntax-highlighting || sudo git clone -b '0.8.0' --depth=1 "https://github.com/zsh-users/zsh-syntax-highlighting"
+    cd zsh-syntax-highlighting
+    sudo make install
+    # make sure this is the last line in ~/.zshrc
+    test -f ~/.zshrc || echo "# zshrc" > ~/.zshrc
+    SOURCE_LINE="source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    ZSHRC_CONTENT="$(cat ~/.zshrc | grep -v "$SOURCE_LINE")"
+    echo "$ZSHRC_CONTENT" > ~/.zshrc
+    echo "$SOURCE_LINE" >> ~/.zshrc
+
+redeploy-fs:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    sudo cp -vr ~/Projects/personal/muhbox/fs/etc/* /etc/
+    sudo cp -vr ~/Projects/personal/muhbox/fs/usr/* /usr/
+
+# vim: set ft=just:

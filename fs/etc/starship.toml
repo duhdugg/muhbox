@@ -1,0 +1,12 @@
+# https://starship.rs/config/
+
+format = "$all"
+
+[[battery.display]]
+threshold = 25
+
+[container]
+style = 'blue'
+
+[directory]
+truncation_length = 0
