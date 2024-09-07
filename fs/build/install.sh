@@ -45,12 +45,17 @@ function _import_host_commands {
   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/transactional-update
 }
 
+_log_build_date {
+ date -I seconds > /build/build_date.txt
+}
+
 function _main {
   _install_packages
   _install_pyenv
   _install_ngrok
   _import_host_commands
   _fix_permissions
+  _log_build_date
 }
 
 _main
