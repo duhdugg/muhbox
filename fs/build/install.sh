@@ -46,7 +46,7 @@ function _import_host_commands {
 }
 
 function _log_build_date {
- date -I seconds > /build/build_date.txt
+ date -Iseconds > /build/build_date.txt
 }
 
 function _main {
