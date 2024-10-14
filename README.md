@@ -1,5 +1,7 @@
 # boxkit
 
+[![build-boxkit](https://github.com/duhdugg/muhbox/actions/workflows/build-boxkit.yml/badge.svg)](https://github.com/duhdugg/muhbox/actions/workflows/build-boxkit.yml)
+
 ## Description
 
 boxkit is a set of GitHub actions and skeleton files to build toolbox and distrobox images. Basically, clone this repo, make the changes you want, and then build what you need. Some examples include:
