@@ -15,7 +15,7 @@ endif
 build: build-image create-box setup
 
 build-image:
-	$(DOCKER_COMMAND) build --format docker -t muhbox .
+	$(DOCKER_COMMAND) build --format docker -t muhbox -f ./ContainerFiles/boxkit .
 
 create-box:
 	DBX_CONTAINER_ALWAYS_PULL=0 $(DISTROBOX_COMMAND) create \

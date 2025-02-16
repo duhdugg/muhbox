@@ -1,0 +1,18 @@
+FROM ghcr.io/ublue-os/bluefin-cli:latest
+
+LABEL com.github.containers.toolbox="true" \
+      usage="This image is meant to be used with the toolbox or distrobox command" \
+      summary="A cloud-native terminal experience" \
+      maintainer="doug@dougelkin.com"
+
+# Copy the setup scripts and package list
+COPY ../scripts/boxkit.sh /
+COPY ../scripts/distrobox-shims.sh /
+COPY ../packages/boxkit.packages /
+COPY ../packages/boxkit-python-build-deps.packages /
+
+# Run the setup scripts
+RUN chmod +x boxkit.sh distrobox-shims.sh && /boxkit.sh
+# RUN rm /boxkit.sh /distrobox-shims.sh /boxkit.packages
+
+# vim: set ft=Dockerfile

@@ -4,16 +4,6 @@ set -euxo pipefail
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-function _install_packages {
-  cd $SCRIPT_DIR
-  extra_packages=$(cat extra-packages | sed 's/#.*//')
-  python_build_deps=$(cat python-build-dependencies | sed 's/#.*//')
-  apk update
-  apk upgrade
-  apk add $extra_packages
-  apk add $python_build_deps
-}
-
 function _install_pyenv {
   cd /opt
   git clone --depth=1 https://github.com/pyenv/pyenv
@@ -37,25 +27,23 @@ function _fix_permissions {
 
 function _import_host_commands {
   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/borg
-  ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker
   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/dogsay
-  ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/flatpak
-  ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/podman
-  ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/rpm-ostree
-  ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/transactional-update
 }
 
 function _log_build_date {
- date -Iseconds > /build/build_date.txt
+ date -Iseconds > /build_date.txt
 }
 
-function _main {
-  _install_packages
-  _install_pyenv
-  _install_ngrok
-  _import_host_commands
-  _fix_permissions
-  _log_build_date
-}
+# Symlink distrobox shims
+./distrobox-shims.sh
 
-_main
+# Update the container and install packages
+apk update && apk upgrade
+grep -v '^#' ./boxkit.packages | xargs apk add
+grep -v '^#' ./boxkit-python-build-deps.packages | xargs apk add
+
+_install_pyenv
+_install_ngrok
+_import_host_commands
+_fix_permissions
+_log_build_date
