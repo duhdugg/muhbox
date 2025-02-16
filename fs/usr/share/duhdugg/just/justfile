@@ -37,15 +37,15 @@ setup:
     set -euxo pipefail
     just export-aws
     just export-postgres
-    just setup-nvim
+    # just setup-nvim
     just setup-zsh
     just setup-rustup
     just install-watchexec
 
-setup-nvim:
-    #!/usr/bin/env bash
-    set -euxo pipefail
-    pip install pynvim
+# setup-nvim:
+#     #!/usr/bin/env bash
+#     set -euxo pipefail
+#     pip install pynvim
 
 setup-rustup:
     #!/usr/bin/env bash
