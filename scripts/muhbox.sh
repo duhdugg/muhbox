@@ -39,8 +39,8 @@ function _log_build_date {
 
 # Update the container and install packages
 apk update && apk upgrade
-grep -v '^#' ./boxkit.packages | xargs apk add
-grep -v '^#' ./boxkit-python-build-deps.packages | xargs apk add
+grep -v '^#' ./muhbox.packages | xargs apk add
+grep -v '^#' ./muhbox-python-build-deps.packages | xargs apk add
 
 _install_pyenv
 _install_ngrok
