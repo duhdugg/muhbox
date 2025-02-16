@@ -10,6 +10,7 @@ COPY ../scripts/muhbox.sh /
 COPY ../scripts/distrobox-shims.sh /
 COPY ../packages/muhbox.packages /
 COPY ../packages/muhbox-python-build-deps.packages /
+COPY ../fs/ /
 
 # Run the setup scripts
 RUN chmod +x muhbox.sh distrobox-shims.sh && /muhbox.sh
