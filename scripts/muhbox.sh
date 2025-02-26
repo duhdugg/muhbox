@@ -28,6 +28,7 @@ function _fix_permissions {
 function _import_host_commands {
   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/borg
   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/dogsay
+  ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/go
 }
 
 function _log_build_date {
