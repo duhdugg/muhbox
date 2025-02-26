@@ -14,6 +14,6 @@ COPY ../fs/ /
 
 # Run the setup scripts
 RUN chmod +x muhbox.sh distrobox-shims.sh && /muhbox.sh
-# RUN rm /muhbox.sh /distrobox-shims.sh /muhbox.packages
+RUN rm /muhbox.sh /distrobox-shims.sh /muhbox.packages /muhbox-python-build-deps.packages
 
 # vim: set ft=Dockerfile
