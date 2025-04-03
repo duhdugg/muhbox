@@ -14,4 +14,4 @@ COPY ../packages/fedora-example.packages /
 RUN chmod +x fedora-example.sh distrobox-shims.sh && /fedora-example.sh
 RUN rm /fedora-example.sh /distrobox-shims.sh /fedora-example.packages
 
-# vim: set ft=Dockerfile
+# vim: set ft=dockerfile
