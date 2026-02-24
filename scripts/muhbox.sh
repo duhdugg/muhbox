@@ -39,7 +39,7 @@ function _log_build_date {
 ./distrobox-shims.sh
 
 # Update the container and install packages
-apk update && apk upgrade
+# apk update && apk upgrade
 grep -v '^#' ./muhbox.packages | xargs apk add
 grep -v '^#' ./muhbox-python-build-deps.packages | xargs apk add
 
